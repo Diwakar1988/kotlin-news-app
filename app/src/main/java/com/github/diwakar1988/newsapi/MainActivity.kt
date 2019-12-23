@@ -2,6 +2,7 @@ package com.github.diwakar1988.newsapi
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import com.github.diwakar1988.newsapi.core.BaseActivity
 import com.github.diwakar1988.newsapi.ui.landing.LandingFragment
 import com.github.diwakar1988.newsapi.ui.landing.NewsPagerAdapter
@@ -22,5 +23,10 @@ class MainActivity : BaseActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.landing, menu)
         return true
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true;
     }
 }
