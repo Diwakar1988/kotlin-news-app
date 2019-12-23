@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.details.DetailsFragment"
-    android:background="@color/bg_screen">
+    android:background="@color/bg_screen"
+    android:clickable="true">
 
     <ImageView
         android:id="@+id/banner"
