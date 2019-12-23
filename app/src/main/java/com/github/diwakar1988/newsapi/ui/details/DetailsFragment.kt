@@ -4,6 +4,7 @@ package com.github.diwakar1988.newsapi.ui.details
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,12 +42,19 @@ class DetailsFragment : Fragment() {
         Picasso.get().load(article?.urlToImage).fit().into(banner)
         title.setText(article?.title)
         description.setText(article?.description)
-        source.setText(String.format("By: %s, %s",article?.author,article?.source?.name))
+        if (TextUtils.isEmpty(article?.author)) {
+            source.setText(String.format("By: %s", article?.source?.name))
+        } else {
+            source.setText(String.format("By: %s, %s", article?.author, article?.source?.name))
+        }
+
         date.setText(
             NewsListAdapter.DATE_FORMATTER.format(
-                NewsListAdapter.DATE_PARSER.parse(article?.publishedAt)))
+                NewsListAdapter.DATE_PARSER.parse(article?.publishedAt)
+            )
+        )
         news.setText(article?.content)
-        full_article.setText(String.format("Read More: %s",article?.url))
+        full_article.setText(String.format("Read More: %s", article?.url))
         full_article.setOnClickListener {
             val browserIntent =
                 Intent(Intent.ACTION_VIEW, Uri.parse(article?.url))
@@ -55,7 +63,9 @@ class DetailsFragment : Fragment() {
     }
 
     companion object {
-        @JvmStatic val TAG = "DetailsFragment"
+        @JvmStatic
+        val TAG = "DetailsFragment"
+
         @JvmStatic
         fun newInstance(article: Article) =
             DetailsFragment().apply {
