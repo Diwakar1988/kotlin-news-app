@@ -1,4 +1,4 @@
-package com.github.diwakar1988.newsapi.landing.utils
+package com.github.diwakar1988.newsapi.ui.landing.utils
 
 import android.os.Handler
 import android.os.Looper

@@ -4,9 +4,14 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'org.jetbrains.kotlin.android.extensions'
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
+    androidExtensions {
+        experimental = true
+    }
     defaultConfig {
         applicationId "com.github.diwakar1988.newsapi"
         minSdkVersion 21

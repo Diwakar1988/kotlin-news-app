@@ -2,7 +2,7 @@ package com.github.diwakar1988.newsapi.net
 
 import android.text.TextUtils
 import com.github.diwakar1988.newsapi.dataclasses.NewsAPIResponse
-import com.github.diwakar1988.newsapi.landing.utils.Async
+import com.github.diwakar1988.newsapi.ui.landing.utils.Async
 import com.github.diwakar1988.newsapi.utils.URLConstants
 import com.google.gson.Gson
 import okhttp3.*
