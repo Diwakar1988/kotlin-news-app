@@ -8,8 +8,8 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.github.diwakar1988.newsapi.R
+import com.github.diwakar1988.newsapi.core.BaseFragment
 import com.github.diwakar1988.newsapi.dataclasses.Article
 import com.github.diwakar1988.newsapi.ui.listing.NewsListAdapter
 import com.squareup.picasso.Picasso
@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_details.*
 
 private const val ARG_ARTICLE = "article"
 
-class DetailsFragment : Fragment() {
+class DetailsFragment : BaseFragment() {
 
     private var article: Article? = null
 
@@ -26,6 +26,19 @@ class DetailsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             article = it.getParcelable(ARG_ARTICLE)
+        }
+        hideStatusBar()
+    }
+
+    private fun hideStatusBar() {
+        activity?.window?.decorView?.apply {
+            systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        }
+    }
+
+    private fun showStatusBar() {
+        activity?.window?.decorView?.apply {
+            systemUiVisibility = 0
         }
     }
 
@@ -62,6 +75,15 @@ class DetailsFragment : Fragment() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        showStatusBar()
+    }
+    override fun setupToolbar() {
+        toolbar.title = ""
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white)
+        getBaseActivity().setSupportActionBar(toolbar);
+    }
     companion object {
         @JvmStatic
         val TAG = "DetailsFragment"

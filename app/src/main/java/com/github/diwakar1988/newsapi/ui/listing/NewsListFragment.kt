@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.diwakar1988.newsapi.R
+import com.github.diwakar1988.newsapi.core.BaseFragment
 import com.github.diwakar1988.newsapi.dataclasses.Article
 import com.github.diwakar1988.newsapi.dataclasses.NewsAPIResponse
 import com.github.diwakar1988.newsapi.net.ApiClientCallback
@@ -19,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_news.*
 
 private const val ARG_SECTION = "section"
 
-class NewsListFragment : Fragment(), NewsListAdapter.OnNewsListItemClicked {
+class NewsListFragment : BaseFragment(), NewsListAdapter.OnNewsListItemClicked {
 
     companion object {
         @JvmStatic val TAG = "NewsListFragment"
@@ -49,6 +50,10 @@ class NewsListFragment : Fragment(), NewsListAdapter.OnNewsListItemClicked {
         this.rv_news_list.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
         this.rv_news_list.setHasFixedSize(true)
         this.loadNews(page);
+    }
+
+    override fun setupToolbar() {
+        //do nothing as this fragment is being used inside landing fragment
     }
 
     private fun loadNews(page:Byte) {

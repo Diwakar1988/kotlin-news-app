@@ -5,16 +5,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.Toast
 import com.github.diwakar1988.newsapi.R
+import com.github.diwakar1988.newsapi.core.BaseFragment
 import com.github.diwakar1988.newsapi.utils.Constants
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_landing.*
 
 
-class LandingFragment : Fragment() {
+class LandingFragment : BaseFragment() {
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true);
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,6 +56,17 @@ class LandingFragment : Fragment() {
 
             }
         })
+    }
+
+    override fun setupToolbar() {
+        toolbar.setTitle(R.string.app_name)
+        toolbar.inflateMenu(R.menu.landing)
+        toolbar.setOnMenuItemClickListener {
+            when(it!!.itemId){
+                R.id.search->Toast.makeText(activity,"Open search",Toast.LENGTH_SHORT).show()
+            }
+            true
+        }
     }
 
     companion object {

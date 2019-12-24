@@ -1,15 +1,13 @@
 package com.github.diwakar1988.newsapi.utils
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.github.diwakar1988.newsapi.MainActivity
 import com.github.diwakar1988.newsapi.R
 
-object NavigationManager:FragmentManager.OnBackStackChangedListener {
+object NavigationManager {
     private lateinit var activity:MainActivity
     fun setActivity(activity:MainActivity){
         this.activity = activity
-        activity.supportFragmentManager.addOnBackStackChangedListener(this)
     }
     fun add(fragment: Fragment, tag:String?, addToBackStack:Boolean=true){
         if (activity==null){
@@ -38,15 +36,4 @@ object NavigationManager:FragmentManager.OnBackStackChangedListener {
         ft.commit()
     }
     fun pop () = activity.supportFragmentManager.popBackStack()
-    override fun onBackStackChanged() {
-        if(activity.supportFragmentManager.backStackEntryCount==0){
-            activity.supportActionBar?.setHomeButtonEnabled(false)
-            activity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
-            activity.supportActionBar?.setTitle(R.string.app_name)
-        }else{
-            activity.supportActionBar?.setHomeButtonEnabled(true)
-            activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            activity.supportActionBar?.title = null
-        }
-    }
 }
