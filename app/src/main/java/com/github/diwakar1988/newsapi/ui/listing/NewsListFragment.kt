@@ -8,19 +8,19 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.diwakar1988.newsapi.R
-import com.github.diwakar1988.newsapi.core.BaseFragment
 import com.github.diwakar1988.newsapi.dataclasses.Article
 import com.github.diwakar1988.newsapi.dataclasses.NewsAPIResponse
 import com.github.diwakar1988.newsapi.net.ApiClientCallback
 import com.github.diwakar1988.newsapi.net.ApiFailure
 import com.github.diwakar1988.newsapi.net.OkHttpApiClient
 import com.github.diwakar1988.newsapi.ui.details.DetailsFragment
+import com.github.diwakar1988.newsapi.utils.Constants
 import com.github.diwakar1988.newsapi.utils.NavigationManager
 import kotlinx.android.synthetic.main.fragment_news.*
 
 private const val ARG_SECTION = "section"
 
-class NewsListFragment : BaseFragment(), NewsListAdapter.OnNewsListItemClicked {
+class NewsListFragment : Fragment(), NewsListAdapter.OnNewsListItemClicked {
 
     companion object {
         @JvmStatic val TAG = "NewsListFragment"
@@ -33,6 +33,7 @@ class NewsListFragment : BaseFragment(), NewsListAdapter.OnNewsListItemClicked {
             }
     }
     lateinit var section:String;
+    lateinit var query:String;
     var page:Byte = 1;
     lateinit var adapter: NewsListAdapter
 
@@ -49,16 +50,14 @@ class NewsListFragment : BaseFragment(), NewsListAdapter.OnNewsListItemClicked {
         super.onViewCreated(view, savedInstanceState)
         this.rv_news_list.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
         this.rv_news_list.setHasFixedSize(true)
-        this.loadNews(page);
-    }
-
-    override fun setupToolbar() {
-        //do nothing as this fragment is being used inside landing fragment
+        if(section != Constants.STR_SEARCH){
+            this.loadNews(page);
+        }
     }
 
     private fun loadNews(page:Byte) {
         showLoader()
-        val category:String? = if(section.equals("Today")) null else section.toLowerCase()
+        val category:String? = if(section == Constants.STR_TODAY) null else section.toLowerCase()
         OkHttpApiClient.getHeadlines(country = "IN", category = category, page =page, callback = object :
             ApiClientCallback {
             override fun onResponse(data: NewsAPIResponse) {
@@ -92,5 +91,27 @@ class NewsListFragment : BaseFragment(), NewsListAdapter.OnNewsListItemClicked {
     override fun onNewsListItemClicked(position: Int) {
         val article:Article = this.adapter.getItem(position)
         NavigationManager.add(DetailsFragment.newInstance(article),DetailsFragment.TAG);
+    }
+
+    fun searchNews(query:String) {
+        this.query = query
+        showLoader()
+        OkHttpApiClient.search(query = query, page =page, callback = object :
+            ApiClientCallback {
+            override fun onResponse(data: NewsAPIResponse) {
+                hideLoader()
+                adapter =
+                    NewsListAdapter(
+                        data.articles,
+                        this@NewsListFragment
+                    );
+                this@NewsListFragment.rv_news_list.adapter = adapter;
+            }
+
+            override fun onFailure(failure: ApiFailure) {
+                hideLoader(true)
+            }
+
+        })
     }
 }

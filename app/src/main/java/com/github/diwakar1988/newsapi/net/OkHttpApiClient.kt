@@ -76,7 +76,7 @@ object OkHttpApiClient : ApiClient {
         val headers = defaultHeaders.newBuilder().build()
         val request = Request
             .Builder()
-            .url("${URLConstants.SEARCH}?query=$query&page=$page")
+            .url("${URLConstants.SEARCH}?q=$query&page=$page")
             .headers(headers)
             .build()
         client.newCall(request).enqueue(OkHttpCallback(callback))

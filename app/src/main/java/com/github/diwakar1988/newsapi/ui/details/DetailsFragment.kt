@@ -82,7 +82,7 @@ class DetailsFragment : BaseFragment() {
     override fun setupToolbar() {
         toolbar.title = ""
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white)
-        getBaseActivity().setSupportActionBar(toolbar);
+        getBaseActivity().setSupportActionBar(toolbar)
     }
     companion object {
         @JvmStatic
